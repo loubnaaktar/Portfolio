@@ -3,7 +3,6 @@ import { Reveal } from "../lib/hooks";
 import { CONTACT } from "../lib/data";
 import SectionHeading from "./SectionHeading";
 import {
-  IconArrowUpRight,
   IconCheck,
   IconGitHub,
   IconLinkedIn,
@@ -115,23 +114,12 @@ export default function Contact() {
             {CHANNELS.map((c, i) => {
               const Icon = c.icon;
               const inner = (
-                <>
-                  <span
-                    className="w-12 h-12 rounded-xl flex items-center justify-center border flex-shrink-0 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6"
-                    style={{ color: c.accent, background: `${c.accent}14`, borderColor: `${c.accent}45` }}
-                  >
-                    <Icon className="w-5 h-5" />
-                  </span>
-                  <span className="flex-1 min-w-0">
-                    <span className="block font-mono text-[11px] uppercase tracking-[0.18em] text-dim mb-1">
-                      {c.label}
-                    </span>
-                    <span className="block text-snow font-semibold text-[15px] truncate">
-                      {c.value}
-                    </span>
-                  </span>
-                  <IconArrowUpRight className="w-4 h-4 text-dim transition-all duration-300 group-hover:text-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5 flex-shrink-0" />
-                </>
+                <span
+                  className="w-12 h-12 rounded-xl flex items-center justify-center border flex-shrink-0 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6"
+                  style={{ color: c.accent, background: `${c.accent}14`, borderColor: `${c.accent}45` }}
+                >
+                  <Icon className="w-5 h-5" />
+                </span>
               );
               return (
                 <Reveal key={c.label} variant="left" delay={i * 100}>
@@ -140,12 +128,17 @@ export default function Contact() {
                       href={c.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="glass-card card-sheen group flex items-center gap-4 rounded-xl p-5"
+                      aria-label={`${c.label} — ${c.value}`}
+                      className="glass-card card-sheen group flex items-center justify-center rounded-xl p-5"
                     >
                       {inner}
                     </a>
                   ) : (
-                    <a href={c.href} className="glass-card card-sheen group flex items-center gap-4 rounded-xl p-5">
+                    <a
+                      href={c.href}
+                      aria-label={`${c.label} — ${c.value}`}
+                      className="glass-card card-sheen group flex items-center justify-center rounded-xl p-5"
+                    >
                       {inner}
                     </a>
                   )}
