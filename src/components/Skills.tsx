@@ -1,5 +1,5 @@
 import type { ComponentType } from "react";
-import { Reveal, useInView } from "../lib/hooks";
+import { Reveal } from "../lib/hooks";
 import { SKILLS } from "../lib/data";
 import SectionHeading from "./SectionHeading";
 import {
@@ -36,28 +36,11 @@ const CATEGORY_META: Record<
   },
 };
 
-function SkillBar({ name, level, delay }: { name: string; level: number; delay: number }) {
-  const [ref, inView] = useInView<HTMLDivElement>();
+function SkillItem({ name }: { name: string }) {
   return (
-    <div ref={ref}>
-      <div className="flex items-baseline justify-between mb-1.5">
-        <span className="text-sm font-semibold text-snow/90">{name}</span>
-        <span className="font-mono text-[11px] text-accent tabular-nums">{level}%</span>
-      </div>
-      <div className="skill-track h-[6px] rounded-full bg-snow/[0.06]">
-        <div
-          className="skill-fill"
-          style={{
-            width: inView ? `${level}%` : "0%",
-            transitionDelay: `${delay}ms`,
-          }}
-          role="progressbar"
-          aria-valuenow={level}
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-label={`Niveau ${name} : ${level}%`}
-        />
-      </div>
+    <div className="flex items-center gap-2.5">
+      <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-primary to-accent shrink-0" />
+      <span className="text-sm font-semibold text-snow/90">{name}</span>
     </div>
   );
 }
@@ -109,9 +92,9 @@ export default function Skills() {
                     </div>
                   </div>
                   <p className="text-mist text-[13px] leading-relaxed mb-6">{meta.desc}</p>
-                  <div className="space-y-4.5">
-                    {cat.skills.map((s, si) => (
-                      <SkillBar key={s.name} name={s.name} level={s.level} delay={si * 110} />
+                  <div className="space-y-3">
+                    {cat.skills.map((s) => (
+                      <SkillItem key={s.name} name={s.name} />
                     ))}
                   </div>
                 </div>

@@ -171,7 +171,7 @@ export function buildCvPdf(): Blob {
 }
 
 export async function downloadCv(): Promise<void> {
-  const res = await fetch("images/fichier/CVLoubnaAKTAR.pdf");
+  const res = await fetch("images/fichier/CV-Loubna-AKTAR-Full-Stack.pdf");
   const blob = await res.blob();
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");

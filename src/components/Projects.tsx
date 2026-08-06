@@ -4,9 +4,9 @@ import SectionHeading from "./SectionHeading";
 import { IconArrowUpRight, IconGitHub, IconSpark } from "./Icons";
 
 const REPOS: Record<string, string> = {
-  healthcare: "https://github.com/loubnaaktar/healthcare-plus-api",
-  xtrade: "https://github.com/loubnaaktar/xtrade",
-  bancaire: "https://github.com/loubnaaktar/gestion-bancaire",
+  healthcare: "https://github.com/ENAA-School-Student/HealthCare-.git",
+  xtrade: "https://github.com/loubnaaktar/XTrade.git",
+  bancaire: "https://github.com/loubnaaktar/ebank.git",
 };
 
 export default function Projects() {
