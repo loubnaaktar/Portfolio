@@ -213,6 +213,48 @@ export const IconBriefcase = ({ className = "w-5 h-5" }: IconProps) => (
   </svg>
 );
 
+/* ------- Thème ------- */
+export const IconSun = ({ className = "w-5 h-5" }: IconProps) => (
+  <svg viewBox="0 0 24 24" className={className} aria-hidden="true" fill="none">
+    <defs>
+      <linearGradient id="sun-grad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stopColor="#fef3c7" />
+        <stop offset="0.45" stopColor="#fbbf24" />
+        <stop offset="1" stopColor="#f97316" />
+      </linearGradient>
+    </defs>
+    <circle cx="12" cy="12" r="4" fill="url(#sun-grad)" stroke="none" />
+    <circle cx="12" cy="12" r="6.4" stroke="url(#sun-grad)" strokeWidth="1" strokeOpacity="0.4" />
+    <path
+      d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.5 5.5l1.5 1.5M17 17l1.5 1.5M18.5 5.5L17 7M7 17l-1.5 1.5"
+      stroke="url(#sun-grad)"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
+export const IconMoon = ({ className = "w-5 h-5" }: IconProps) => (
+  <svg viewBox="0 0 24 24" className={className} aria-hidden="true" fill="none">
+    <defs>
+      <linearGradient id="moon-grad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stopColor="#e0e7ff" />
+        <stop offset="0.55" stopColor="#a5b4fc" />
+        <stop offset="1" stopColor="#22d3ee" />
+      </linearGradient>
+    </defs>
+    <path
+      d="M20.6 14.3A8.6 8.6 0 0 1 9.7 3.4a8.6 8.6 0 1 0 10.9 10.9Z"
+      fill="url(#moon-grad)"
+      stroke="#e0e7ff"
+      strokeOpacity="0.55"
+      strokeWidth="0.5"
+    />
+    <path d="M17.5 5l.55 1.45L19.5 7l-1.45.55L17.5 9l-.55-1.45L15.5 7l1.45-.55L17.5 5Z" fill="#67e8f9" stroke="none" />
+    <path d="M20.8 9.8l.35.95.95.35-.95.35-.35.95-.35-.95-.95-.35.95-.35.35-.95Z" fill="#c7d2fe" stroke="none" />
+  </svg>
+);
+
 /* Logo monogramme */
 export const LogoMark = ({ className = "w-9 h-9" }: IconProps) => (
   <svg viewBox="0 0 40 40" className={className} aria-hidden="true">

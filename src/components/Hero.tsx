@@ -1,15 +1,26 @@
 import { Reveal, useScramble, useScrollTo } from "../lib/hooks";
+import { useI18n } from "../i18n";
 import { downloadCv } from "../lib/cv";
-import { CONTACT } from "../lib/data";
 import { IconArrowRight, IconDownload, IconPin } from "./Icons";
 
 const ORBIT_CHIPS = [
   { label: "Java", pos: "top-[6%] -left-3 sm:-left-8", delay: "0s", color: "#3B82F6" },
-  { label: "React", pos: "top-[38%] -right-10 sm:-right-24", delay: "1.7s", color: "#8B5CF6" },
+  { label: "React", pos: "top-[35%] -right-2 sm:-right-10", delay: "1.7s", color: "#8B5CF6" },
   { label: "Spring Boot", pos: "bottom-[16%] -left-2 sm:-left-14", delay: "0.9s", color: "#06B6D4" },
 ];
 
+const ACTION_CLASS =
+  "group relative inline-flex items-center gap-2.5 rounded-2xl border border-snow/[0.08] bg-snow/[0.03] px-6 py-3.5 font-semibold text-[15px] text-snow backdrop-blur-sm transition-all duration-300 hover:border-accent/50 hover:bg-snow/[0.06] hover:-translate-y-0.5";
+
+const ACTION_BAR = (
+  <span
+    className="absolute left-0 top-3 bottom-3 w-[3px] rounded-full bg-gradient-to-b from-primary via-accent to-secondary"
+    aria-hidden="true"
+  />
+);
+
 export default function Hero() {
+  const { t, lang } = useI18n();
   const scrollTo = useScrollTo();
   const line1 = useScramble("LOUBNA", true, 36);
   const line2 = useScramble("AKTAR", true, 52);
@@ -40,7 +51,7 @@ export default function Hero() {
           <Reveal variant="fade" delay={100}>
             <span className="inline-flex items-center gap-2.5 rounded-full border border-accent/30 bg-accent/[0.07] px-4 py-1.5 font-mono text-[12px] tracking-wide text-accent">
               <span className="w-2 h-2 rounded-full bg-accent animate-pulse-dot" />
-              Disponible pour de nouvelles opportunités
+              {t("hero.badge")}
             </span>
           </Reveal>
 
@@ -53,43 +64,47 @@ export default function Hero() {
 
           <Reveal delay={260}>
             <p className="caret mt-6 font-mono text-sm sm:text-base text-accent tracking-wide">
-              Développeuse Full Stack Java&thinsp;|&thinsp;Spring Boot&thinsp;|&thinsp;React
+              {t("hero.role")}
             </p>
           </Reveal>
 
           <Reveal delay={360}>
-            <p className="mt-6 max-w-xl text-mist text-base sm:text-lg leading-relaxed">
-              Développeuse Full Stack passionnée par la création d'applications web{" "}
-              <span className="text-snow font-semibold">modernes, performantes et sécurisées</span>.
-              J'aime concevoir des solutions robustes en{" "}
-              <span className="text-primary font-semibold">Java Spring Boot</span> et développer des
-              interfaces utilisateur intuitives avec{" "}
-              <span className="text-accent font-semibold">React</span>.
-            </p>
+            <div className="relative mt-6 max-w-xl rounded-2xl border border-snow/[0.08] bg-snow/[0.03] p-5 sm:p-6 pl-6 sm:pl-7 backdrop-blur-sm">
+              <span
+                className="absolute left-0 top-5 bottom-5 w-[3px] rounded-full bg-gradient-to-b from-primary via-accent to-secondary"
+                aria-hidden="true"
+              />
+              <p className="text-mist text-base sm:text-[17px] leading-relaxed">
+                {t("hero.introPre")}
+                <span className="text-snow font-semibold">{t("hero.introAccent")}</span>
+                {t("hero.introPost")}
+                <span className="text-primary font-semibold">{t("hero.java")}</span>
+                {t("hero.linkPre")}
+                <span className="text-accent font-semibold">{t("hero.react")}</span>
+                {t("hero.linkPost")}
+              </p>
+            </div>
           </Reveal>
 
           <Reveal delay={470}>
             <div className="mt-9 flex flex-wrap items-center gap-4">
-              <button
-                onClick={() => scrollTo("projets")}
-                className="btn-primary inline-flex items-center gap-2.5 rounded-full px-7 py-3.5 font-semibold text-[15px] text-snow"
-              >
-                Voir mes projets
-                <IconArrowRight className="w-4 h-4" />
+              <button onClick={() => scrollTo("projets")} className={ACTION_CLASS}>
+                {ACTION_BAR}
+                {t("hero.btnProjets")}
+                <IconArrowRight className="w-4 h-4 text-accent transition-transform duration-300 group-hover:translate-x-1" />
+              </button>
+              <button onClick={() => scrollTo("contact")} className={ACTION_CLASS}>
+                {ACTION_BAR}
+                {t("hero.btnContact")}
               </button>
               <button
-                onClick={() => scrollTo("contact")}
-                className="btn-outline inline-flex items-center gap-2.5 rounded-full px-7 py-3.5 font-semibold text-[15px] text-snow"
+                onClick={() => downloadCv(lang)}
+                className={ACTION_CLASS}
+                aria-label={t("a11y.downloadCv")}
               >
-                Me contacter
-              </button>
-              <button
-                onClick={downloadCv}
-                className="btn-outline group inline-flex items-center gap-2.5 rounded-full px-7 py-3.5 font-semibold text-[15px] text-snow"
-                aria-label="Télécharger mon CV au format PDF"
-              >
-                <IconDownload className="w-4 h-4 transition-transform duration-300 group-hover:translate-y-0.5" />
-                Télécharger CV
+                {ACTION_BAR}
+                <IconDownload className="w-4 h-4 text-accent transition-transform duration-300 group-hover:translate-y-0.5" />
+                {t("hero.btnCv")}
               </button>
             </div>
           </Reveal>
@@ -97,14 +112,15 @@ export default function Hero() {
           <Reveal delay={580} variant="fade">
             <p className="mt-8 flex items-center gap-2 font-mono text-[13px] text-dim">
               <IconPin className="w-4 h-4 text-primary" />
-              {CONTACT.location} — réponse garantie sous 24&nbsp;h
+              {t("contact.location")}
+              {t("hero.reply")}
             </p>
           </Reveal>
         </div>
 
         {/* Colonne visuelle */}
         <Reveal variant="zoom" delay={300} className="relative mx-auto lg:mx-0 justify-self-center lg:justify-self-end">
-          <div className="relative w-[280px] h-[280px] sm:w-[360px] sm:h-[360px]">
+          <div className="relative w-[330px] h-[330px] sm:w-[420px] sm:h-[420px]">
             {/* Anneaux orbitaux */}
             <div
               className="absolute -inset-7 rounded-full border border-dashed border-primary/30 animate-spin-slow"
@@ -121,7 +137,7 @@ export default function Hero() {
             <div className="portrait-halo absolute inset-0 rounded-full overflow-hidden bg-surface">
               <img
                 src="images/portrait.png"
-                alt="Portrait de Loubna Aktar, développeuse Full Stack"
+                alt={t("a11y.portraitAlt")}
                 className="w-full h-full object-cover"
                 width={400}
                 height={400}
@@ -136,7 +152,7 @@ export default function Hero() {
             {ORBIT_CHIPS.map((chip) => (
               <span
                 key={chip.label}
-                className={`absolute ${chip.pos} animate-float rounded-full border border-snow/10 bg-ink/85 backdrop-blur-md px-4 py-2 font-mono text-[12px] font-medium text-snow shadow-[0_8px_30px_-8px_rgba(2,6,23,0.9)]`}
+                className={`absolute ${chip.pos} animate-float rounded-full border border-snow/10 bg-ink/85 backdrop-blur-md px-4 py-2 font-mono text-[12px] font-medium text-snow shadow-[var(--elev)]`}
                 style={{ animationDelay: chip.delay }}
               >
                 <span
@@ -149,7 +165,7 @@ export default function Hero() {
           </div>
 
           {/* Mini terminal */}
-          <Reveal delay={650} variant="up" className="mt-12 sm:mt-8 sm:-ml-10 relative z-10 w-[290px] sm:w-[330px]">
+          <Reveal delay={650} variant="up" className="mt-12 sm:mt-8 mx-auto relative z-10 w-[290px] sm:w-[330px]">
             <div className="glass-card rounded-xl overflow-hidden shadow-lift">
               <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-snow/[0.06] bg-snow/[0.03]">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />

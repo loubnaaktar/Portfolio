@@ -1,13 +1,15 @@
 import { Reveal, useInView } from "../lib/hooks";
+import { useI18n } from "../i18n";
 import { TIMELINE } from "../lib/data";
 import SectionHeading from "./SectionHeading";
 import { IconCap, IconTerminal } from "./Icons";
 
 export default function Parcours() {
+  const { t } = useI18n();
   const [lineRef, lineIn] = useInView<HTMLDivElement>(0.05);
 
   return (
-    <section id="parcours" className="relative py-28 sm:py-36 overflow-hidden">
+    <section id="parcours" className="relative py-16 sm:py-20 overflow-hidden">
       <div
         className="absolute top-1/4 -left-40 w-[460px] h-[460px] rounded-full bg-primary/12 blur-[130px] pointer-events-none"
         aria-hidden="true"
@@ -15,13 +17,15 @@ export default function Parcours() {
       <div className="relative max-w-6xl mx-auto px-5 sm:px-8">
         <SectionHeading
           index="04"
-          eyebrow="Parcours"
+          eyebrow={t("parcours.eyebrow")}
           title={
             <>
-              Un chemin <span className="text-grad">atypique</span>, une vocation
+              {t("parcours.titlePre")}
+              <span className="text-grad">{t("parcours.titleAccent")}</span>
+              {t("parcours.titlePost")}
             </>
           }
-          desc="De l'archéologie au développement : deux formations complémentaires qui font de moi une développeuse rigoureuse, méthodique et passionnée."
+          desc={t("parcours.desc")}
         />
 
         <div className="relative" ref={lineRef}>
@@ -36,7 +40,7 @@ export default function Parcours() {
               const left = i % 2 === 0;
               return (
                 <li
-                  key={item.title}
+                  key={item.id}
                   className={`relative grid lg:grid-cols-2 gap-6 lg:gap-16 ${
                     left ? "" : "lg:[direction:rtl]"
                   }`}
@@ -63,12 +67,12 @@ export default function Parcours() {
                         </span>
                         <span
                           className={`inline-flex items-center rounded-full px-3.5 py-1 font-mono text-[11px] font-medium ${
-                            item.status === "En cours"
+                            item.id === "fullstack"
                               ? "bg-accent/10 border border-accent/40 text-accent"
                               : "bg-secondary/10 border border-secondary/40 text-secondary"
                           }`}
                         >
-                          {item.status}
+                          {t(`parcours.${item.id}.status`)}
                         </span>
                       </div>
                       <div className="flex items-center gap-3.5 mb-2">
@@ -77,19 +81,21 @@ export default function Parcours() {
                         </span>
                         <div>
                           <h3 className="font-display font-bold text-xl sm:text-2xl text-snow">
-                            {item.title}
+                            {t(`parcours.${item.id}.title`)}
                           </h3>
                           <p className="font-mono text-[12px] text-mist mt-0.5">{item.place}</p>
                         </div>
                       </div>
-                      <p className="text-mist text-sm leading-relaxed mt-3">{item.description}</p>
+                      <p className="text-mist text-sm leading-relaxed mt-3">
+                        {t(`parcours.${item.id}.desc`)}
+                      </p>
                       <ul className="mt-5 flex flex-wrap gap-2">
-                        {item.tags.map((t) => (
+                        {item.tags.map((tag) => (
                           <li
-                            key={t}
+                            key={tag}
                             className="rounded-full bg-snow/[0.05] border border-snow/10 px-3 py-1 font-mono text-[11px] text-snow/70"
                           >
-                            {t}
+                            {tag.includes(".") ? t(tag) : tag}
                           </li>
                         ))}
                       </ul>

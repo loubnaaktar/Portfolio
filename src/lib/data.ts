@@ -1,22 +1,14 @@
-export const NAV_LINKS = [
-  { id: "a-propos", label: "À propos" },
-  { id: "competences", label: "Compétences" },
-  { id: "projets", label: "Projets" },
-  { id: "parcours", label: "Parcours" },
-  { id: "contact", label: "Contact" },
-];
+export const NAV_LINKS = [{ id: "a-propos" }, { id: "competences" }, { id: "projets" }, { id: "parcours" }, { id: "contact" }];
 
 export const CONTACT = {
   phone: "+212 6 61 23 45 67",
   email: "loubnaakt13@gmail.com",
   linkedin: "https://www.linkedin.com/in/loubna-aktar-706b6b33b/",
   github: "https://github.com/loubnaaktar",
-  location: "Rabat, Maroc",
 };
 
 export type SkillCategory = {
   id: string;
-  title: string;
   accent: string;
   skills: { name: string; level: number }[];
 };
@@ -24,7 +16,6 @@ export type SkillCategory = {
 export const SKILLS: SkillCategory[] = [
   {
     id: "backend",
-    title: "Backend",
     accent: "#3B82F6",
     skills: [
       { name: "Java", level: 88 },
@@ -38,7 +29,6 @@ export const SKILLS: SkillCategory[] = [
   },
   {
     id: "frontend",
-    title: "Frontend",
     accent: "#06B6D4",
     skills: [
       { name: "React", level: 82 },
@@ -49,13 +39,11 @@ export const SKILLS: SkillCategory[] = [
   },
   {
     id: "database",
-    title: "Base de données",
     accent: "#8B5CF6",
     skills: [{ name: "MySQL", level: 82 }],
   },
   {
     id: "devops",
-    title: "DevOps",
     accent: "#06B6D4",
     skills: [
       { name: "Docker", level: 75 },
@@ -65,7 +53,6 @@ export const SKILLS: SkillCategory[] = [
   },
   {
     id: "outils",
-    title: "Outils",
     accent: "#3B82F6",
     skills: [
       { name: "IntelliJ IDEA", level: 86 },
@@ -78,18 +65,15 @@ export const SKILLS: SkillCategory[] = [
 ];
 
 export const STATS = [
-  { value: 15, suffix: "+", label: "Technologies maîtrisées" },
-  { value: 3, suffix: "", label: "Projets réalisés" },
-  { value: 1, suffix: "", label: "Formation Full Stack" },
-  { value: 3, suffix: "", label: "Langues parlées" },
+  { id: "tech", value: 15, suffix: "+" },
+  { id: "projects", value: 3, suffix: "" },
+  { id: "training", value: 1, suffix: "" },
+  { id: "languages", value: 3, suffix: "" },
 ];
 
 export type Project = {
   id: string;
   index: string;
-  title: string;
-  tag: string;
-  description: string;
   techs: string[];
   image: string;
   featured?: boolean;
@@ -99,10 +83,6 @@ export const PROJECTS: Project[] = [
   {
     id: "healthcare",
     index: "01",
-    title: "HealthCare+",
-    tag: "API REST · Spring Boot",
-    description:
-      "API REST de gestion médicale développée avec Java 21 et Spring Boot intégrant Spring Security, JWT, CRUD, DTO, MapStruct, Flyway, Docker, Swagger et MySQL.",
     techs: [
       "Java 21",
       "Spring Boot",
@@ -119,91 +99,73 @@ export const PROJECTS: Project[] = [
     featured: true,
   },
   {
-    id: "xtrade",
+    id: "logitrack",
     index: "02",
-    title: "XTrade",
-    tag: "Application Java · Trading",
-    description:
-      "Application Java simulant une plateforme de trading avec gestion des traders, portefeuilles, transactions et statistiques de performance.",
-    techs: ["Java", "Streams API", "POO", "Generics", "Git"],
-    image: "images/project-xtrade.jpg",
+    techs: [
+      "Java",
+      "Spring Boot",
+      "Spring Security",
+      "JWT",
+      "MySQL",
+      "React",
+      "Docker",
+      "Prometheus",
+      "Grafana",
+      "Loki",
+      "Spring Boot Actuator",
+    ],
+    image: "images/project-logitrack.jpg",
   },
   {
-    id: "bancaire",
+    id: "assetpilot",
     index: "03",
-    title: "Gestion Bancaire",
-    tag: "Application Console · POO",
-    description:
-      "Application console permettant la gestion des comptes bancaires avec dépôt, retrait, transfert d'argent et architecture orientée objet.",
-    techs: ["Java", "POO", "Git"],
-    image: "images/project-banking.jpg",
+    techs: [
+      "Java 21",
+      "Spring Boot",
+      "Spring Security",
+      "JWT",
+      "React",
+      "MySQL",
+      "Docker",
+      "Docker Compose",
+    ],
+    image: "images/project-assetpilot.jpg",
   },
 ];
 
-export const TIMELINE = [
+export type TimelineItem = {
+  id: string;
+  period: string;
+  place: string;
+  tags: string[];
+};
+
+export const TIMELINE: TimelineItem[] = [
   {
+    id: "fullstack",
     period: "2025 — 2026",
-    title: "Formation Full Stack",
     place: "École Numérique Ahmed Al Hansali",
-    status: "En cours",
-    description:
-      "Développement web complet : Java, Spring Boot, React, MySQL, Docker. Conception d'API REST sécurisées, bases de données relationnelles et bonnes pratiques du génie logiciel.",
     tags: ["Java", "Spring Boot", "React", "MySQL"],
   },
   {
+    id: "licence",
     period: "2023 — 2024",
-    title: "Licence en Archéologie Islamique",
     place: "Institut National des Sciences de l'Archéologie et du Patrimoine",
-    status: "Diplômée",
-    description:
-      "Formation universitaire exigeante ayant forgé mon esprit d'analyse, ma rigueur méthodologique et ma capacité de recherche — des atouts que j'applique aujourd'hui au code.",
-    tags: ["Analyse", "Rigueur", "Recherche"],
+    tags: ["parcours.skills.analyse", "parcours.skills.rigueur", "parcours.skills.recherche"],
   },
 ];
 
-export type WhyCard = { title: string; desc: string; icon: string };
+export type WhyCard = { icon: string };
 
 export const WHY_CARDS: WhyCard[] = [
-  {
-    title: "Code propre",
-    desc: "Un code lisible, structuré et documenté, pensé pour être maintenu et relu par toute une équipe.",
-    icon: "code",
-  },
-  {
-    title: "Bonnes pratiques",
-    desc: "SOLID, DTO, tests, sécurité JWT : je m'appuie sur les standards de l'industrie, pas sur l'improvisation.",
-    icon: "shield",
-  },
-  {
-    title: "Travail en équipe",
-    desc: "Git flow, revues de code et entraide : je m'intègre rapidement dans une dynamique collective.",
-    icon: "team",
-  },
-  {
-    title: "Communication",
-    desc: "Des échanges clairs et réguliers, pour aligner le code sur les vrais besoins métier.",
-    icon: "chat",
-  },
-  {
-    title: "Résolution de problèmes",
-    desc: "Décomposer, analyser, résoudre : chaque bug est une enquête, chaque erreur une leçon.",
-    icon: "puzzle",
-  },
-  {
-    title: "Curiosité",
-    desc: "Toujours en veille : nouvelles versions de Spring, écosystème React, outils émergents.",
-    icon: "spark",
-  },
-  {
-    title: "Apprentissage rapide",
-    desc: "De l'archéologie au code : j'ai prouvé que je peux changer de domaine et monter en compétence vite.",
-    icon: "bolt",
-  },
-  {
-    title: "Motivation",
-    desc: "Une énergie constante, l'envie de livrer des projets solides et de progresser chaque jour.",
-    icon: "flame",
-  },
+  { icon: "code" },
+  { icon: "shield" },
+  { icon: "team" },
+  { icon: "chat" },
+  { icon: "puzzle" },
+  { icon: "spark" },
+  { icon: "bolt" },
+  { icon: "flame" },
 ];
 
 export const MARQUEE_ITEMS = [

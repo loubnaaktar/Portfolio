@@ -10,6 +10,31 @@
     />
     <meta name="author" content="Loubna Aktar" />
     <meta name="theme-color" content="#0B1120" />
+    <meta name="color-scheme" content="dark light" />
+    <script>
+      (function () {
+        try {
+          var storedLang = localStorage.getItem("lang");
+          var lang = storedLang === "fr" || storedLang === "en" ? storedLang : "fr";
+          document.documentElement.setAttribute("lang", lang);
+        } catch (e) {}
+        try {
+          var stored = localStorage.getItem("theme");
+          var theme =
+            stored === "light" || stored === "dark"
+              ? stored
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+          var root = document.documentElement;
+          root.setAttribute("data-theme", theme);
+          root.classList.add(theme);
+          root.style.colorScheme = theme;
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute("content", theme === "light" ? "#F2F5FB" : "#0B1120");
+        } catch (e) {}
+      })();
+    </script>
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Loubna Aktar — Développeuse Full Stack Java | React" />
     <meta

@@ -113,13 +113,13 @@ export function buildCvPdf(): Blob {
     color: [0.45, 0.51, 0.6],
     gap: 18,
   });
-  push("XTrade — Simulateur de plateforme de trading", 10, { bold: true, gap: 14 });
-  push("Gestion des traders, portefeuilles, transactions et statistiques de performance (Streams API, POO).", 9, {
+  push("LogiTrack — Gestion logistique Full Stack", 10, { bold: true, gap: 14 });
+  push("Gestion clients, produits et commandes, suivi de statut, auth JWT, microservice de notifications et supervision (Prometheus, Grafana, Loki).", 9, {
     color: [0.45, 0.51, 0.6],
     gap: 18,
   });
-  push("Gestion Bancaire — Application console orientée objet", 10, { bold: true, gap: 14 });
-  push("Dépôt, retrait, transfert d'argent et architecture orientée objet en Java.", 9, {
+  push("AssetPilot — Gestion du parc informatique Full Stack", 10, { bold: true, gap: 14 });
+  push("Gestion des équipements, affectations aux employés, suivi des incidents, auth JWT, rôles et cache Redis.", 9, {
     color: [0.45, 0.51, 0.6],
     gap: 20,
   });
@@ -170,13 +170,27 @@ export function buildCvPdf(): Blob {
   return new Blob([bytes], { type: "application/pdf" });
 }
 
-export async function downloadCv(): Promise<void> {
-  const res = await fetch("images/fichier/CV-Loubna-AKTAR-Full-Stack.pdf");
+type CvLang = "fr" | "en";
+
+const CV_FILES: Record<CvLang, { src: string; name: string }> = {
+  fr: {
+    src: "images/fichier/CV_Aktar_Loubna_Full_Stack.pdf",
+    name: "CV-Loubna-Aktar-Full-Stack.pdf",
+  },
+  en: {
+    src: "images/fichier/CV_Aktar_Loubna_Full_Stack_English.pdf",
+    name: "CV-Aktar-Loubna-Full-Stack-English.pdf",
+  },
+};
+
+export async function downloadCv(lang: CvLang = "fr"): Promise<void> {
+  const { src, name } = CV_FILES[lang] ?? CV_FILES.fr;
+  const res = await fetch(src);
   const blob = await res.blob();
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = "CV-Loubna-Aktar-FullStack.pdf";
+  a.download = name;
   document.body.appendChild(a);
   a.click();
   a.remove();

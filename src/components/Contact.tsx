@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { Reveal } from "../lib/hooks";
+import { useI18n } from "../i18n";
 import { CONTACT } from "../lib/data";
 import SectionHeading from "./SectionHeading";
 import {
@@ -16,30 +17,30 @@ type Status = "idle" | "sending" | "sent" | "error";
 
 const CHANNELS = [
   {
+    labelKey: "contact.channelPhone",
     icon: IconPhone,
-    label: "Téléphone",
     value: CONTACT.phone,
     href: `tel:${CONTACT.phone.replace(/\s/g, "")}`,
     accent: "#3B82F6",
   },
   {
+    labelKey: "contact.channelEmail",
     icon: IconMail,
-    label: "Email",
     value: CONTACT.email,
     href: `mailto:${CONTACT.email}`,
     accent: "#06B6D4",
   },
   {
+    labelKey: "contact.channelLinkedin",
     icon: IconLinkedIn,
-    label: "LinkedIn",
     value: "linkedin.com/in/loubna-aktar-706b6b33b",
     href: CONTACT.linkedin,
     accent: "#3B82F6",
     external: true,
   },
   {
+    labelKey: "contact.channelGithub",
     icon: IconGitHub,
-    label: "GitHub",
     value: "github.com/loubnaaktar",
     href: CONTACT.github,
     accent: "#8B5CF6",
@@ -48,8 +49,9 @@ const CHANNELS = [
 ];
 
 export default function Contact() {
+  const { t } = useI18n();
   const [status, setStatus] = useState<Status>("idle");
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorKey, setErrorKey] = useState("");
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -77,21 +79,21 @@ export default function Contact() {
         form.reset();
         window.setTimeout(() => setStatus("idle"), 6000);
       } else {
-        setErrorMsg(
+        setErrorKey(
           /activation/i.test(data.message ?? "")
-            ? "Le formulaire n'est pas encore activé. Ouvrez l'email « Activate Form » envoyé à votre adresse et cliquez sur le lien d'activation, puis réessayez."
-            : "Une erreur est survenue. Réessayez dans un instant."
+            ? "contact.errorActivation"
+            : "contact.errorGeneric"
         );
         setStatus("error");
       }
     } catch {
-      setErrorMsg("Une erreur est survenue. Réessayez dans un instant.");
+      setErrorKey("contact.errorGeneric");
       setStatus("error");
     }
   };
 
   return (
-    <section id="contact" className="relative py-28 sm:py-36 overflow-hidden">
+    <section id="contact" className="relative pt-16 sm:pt-20 pb-6 sm:pb-10 overflow-hidden">
       <div
         className="absolute top-10 -right-40 w-[520px] h-[520px] rounded-full bg-primary/15 blur-[140px] pointer-events-none"
         aria-hidden="true"
@@ -99,79 +101,75 @@ export default function Contact() {
       <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
         <SectionHeading
           index="06"
-          eyebrow="Contact"
+          eyebrow={t("contact.eyebrow")}
           title={
             <>
-              Construisons quelque chose <span className="text-grad">ensemble</span>
+              {t("contact.titlePre")}
+              <span className="text-grad">{t("contact.titleAccent")}</span>
             </>
           }
-          desc="Un stage, une alternance, un premier poste, une mission freelance ? Parlons-en — je réponds à tous les messages sous 24 heures."
         />
 
-        <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-12 lg:gap-16 items-start">
+        <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-12 lg:gap-16 items-stretch">
           {/* Coordonnées */}
-          <div className="space-y-4">
-            {CHANNELS.map((c, i) => {
-              const Icon = c.icon;
-              const inner = (
-                <span
-                  className="w-12 h-12 rounded-xl flex items-center justify-center border flex-shrink-0 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6"
-                  style={{ color: c.accent, background: `${c.accent}14`, borderColor: `${c.accent}45` }}
-                >
-                  <Icon className="w-5 h-5" />
-                </span>
-              );
-              return (
-                <Reveal key={c.label} variant="left" delay={i * 100}>
-                  {c.external ? (
-                    <a
-                      href={c.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${c.label} — ${c.value}`}
-                      className="glass-card card-sheen group flex items-center justify-center rounded-xl p-5"
-                    >
-                      {inner}
-                    </a>
-                  ) : (
-                    <a
-                      href={c.href}
-                      aria-label={`${c.label} — ${c.value}`}
-                      className="glass-card card-sheen group flex items-center justify-center rounded-xl p-5"
-                    >
-                      {inner}
-                    </a>
-                  )}
-                </Reveal>
-              );
-            })}
+          <div className="flex flex-col gap-6">
+            <Reveal variant="left">
+              <p className="text-mist text-lg leading-relaxed">{t("contact.desc")}</p>
+            </Reveal>
 
-            <Reveal variant="left" delay={420}>
+            <div className="flex flex-wrap gap-4">
+              {CHANNELS.map((c, i) => {
+                const Icon = c.icon;
+                return (
+                  <Reveal key={c.labelKey} delay={i * 100}>
+                    <a
+                      href={c.href}
+                      {...(c.external
+                        ? { target: "_blank", rel: "noopener noreferrer" }
+                        : {})}
+                      title={t(c.labelKey)}
+                      aria-label={`${t(c.labelKey)} — ${c.value}`}
+                      className="group w-14 h-14 rounded-full border flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_25px_-8px_rgba(2,6,23,0.6)]"
+                      style={{
+                        color: c.accent,
+                        background: `${c.accent}14`,
+                        borderColor: `${c.accent}40`,
+                      }}
+                    >
+                      <Icon className="w-5 h-5" />
+                    </a>
+                  </Reveal>
+                );
+              })}
+            </div>
+
+            <Reveal variant="left" delay={300}>
               <div className="rounded-xl border border-dashed border-accent/30 bg-accent/[0.04] p-5 flex items-center gap-4">
                 <span className="w-12 h-12 rounded-xl bg-accent/10 border border-accent/30 text-accent flex items-center justify-center flex-shrink-0">
                   <IconPin className="w-5 h-5" />
                 </span>
                 <p className="text-mist text-sm leading-relaxed">
-                  <span className="text-snow font-semibold">{CONTACT.location}</span> — disponible
-                  sur site, en hybride ou en <span className="text-accent">full remote</span>.
+                  <span className="text-snow font-semibold">{t("contact.location")}</span>
+                  {t("contact.availA")}
+                  <span className="text-accent">{t("contact.availB")}</span>.
                 </p>
               </div>
             </Reveal>
           </div>
 
           {/* Formulaire */}
-          <Reveal variant="right" delay={150}>
+          <Reveal variant="right" delay={150} className="h-full">
             <form
               onSubmit={onSubmit}
-              className="glass-card rounded-xl p-7 sm:p-9 relative overflow-hidden"
-              aria-label="Formulaire de contact"
+              className="glass-card rounded-xl p-7 sm:p-9 relative overflow-hidden h-full"
+              aria-label={t("a11y.contactForm")}
             >
               <div
                 className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary via-accent to-secondary"
                 aria-hidden="true"
               />
               <div className="flex items-center justify-between mb-7">
-                <h3 className="font-display font-bold text-2xl text-snow">Envoyez-moi un message</h3>
+                <h3 className="font-display font-bold text-2xl text-snow">{t("contact.formTitle")}</h3>
                 <span className="font-mono text-[11px] text-dim hidden sm:block">
                   {"<"}form{" />"}
                 </span>
@@ -180,28 +178,28 @@ export default function Contact() {
               <div className="grid sm:grid-cols-2 gap-5">
                 <div>
                   <label htmlFor="nom" className="block font-mono text-[12px] text-mist mb-2">
-                    Nom <span className="text-accent">*</span>
+                    {t("contact.labelName")} <span className="text-accent">*</span>
                   </label>
                   <input
                     id="nom"
                     name="nom"
                     type="text"
                     required
-                    placeholder="Votre nom"
+                    placeholder={t("contact.placeholderName")}
                     className="field"
                     autoComplete="name"
                   />
                 </div>
                 <div>
                   <label htmlFor="email" className="block font-mono text-[12px] text-mist mb-2">
-                    Email <span className="text-accent">*</span>
+                    {t("contact.labelEmail")} <span className="text-accent">*</span>
                   </label>
                   <input
                     id="email"
                     name="email"
                     type="email"
                     required
-                    placeholder="vous@exemple.com"
+                    placeholder={t("contact.placeholderEmail")}
                     className="field"
                     autoComplete="email"
                   />
@@ -210,28 +208,28 @@ export default function Contact() {
 
               <div className="mt-5">
                 <label htmlFor="sujet" className="block font-mono text-[12px] text-mist mb-2">
-                  Sujet <span className="text-accent">*</span>
+                  {t("contact.labelSubject")} <span className="text-accent">*</span>
                 </label>
                 <input
                   id="sujet"
                   name="sujet"
                   type="text"
                   required
-                  placeholder="Stage, alternance, collaboration…"
+                  placeholder={t("contact.placeholderSubject")}
                   className="field"
                 />
               </div>
 
               <div className="mt-5">
                 <label htmlFor="message" className="block font-mono text-[12px] text-mist mb-2">
-                  Message <span className="text-accent">*</span>
+                  {t("contact.labelMessage")} <span className="text-accent">*</span>
                 </label>
                 <textarea
                   id="message"
                   name="message"
                   required
                   rows={5}
-                  placeholder="Parlez-moi de votre projet, de votre équipe, de vos besoins…"
+                  placeholder={t("contact.placeholderMessage")}
                   className="field resize-none"
                 />
               </div>
@@ -247,16 +245,16 @@ export default function Contact() {
                       className="w-4.5 h-4.5 rounded-full border-2 border-snow/30 border-t-snow animate-spin"
                       aria-hidden="true"
                     />
-                    Envoi en cours…
+                    {t("contact.sending")}
                   </>
                 ) : status === "sent" ? (
                   <>
                     <IconCheck className="w-4.5 h-4.5" />
-                    Message envoyé !
+                    {t("contact.sent")}
                   </>
                 ) : (
                   <>
-                    Envoyer
+                    {t("contact.submit")}
                     <IconSend className="w-4 h-4" />
                   </>
                 )}
@@ -274,8 +272,8 @@ export default function Contact() {
                 aria-live="polite"
               >
                 {status === "error"
-                  ? `✗ ${errorMsg}`
-                  : "✓ Merci ! Je reviens vers vous très rapidement."}
+                  ? `✗ ${t(errorKey)}`
+                  : `✓ ${t("contact.thanks")}`}
               </p>
             </form>
           </Reveal>
